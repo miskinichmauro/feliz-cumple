@@ -16,7 +16,7 @@
     --gold-grad:linear-gradient(135deg,#F4DBAB 0%,#E7C795 45%,#C9A06A 100%);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;overflow:hidden}
+  html,body{height:100%;overflow:hidden;position:fixed;inset:0;width:100%;overscroll-behavior:none;touch-action:none}
   body{
     font-family:'Jost',system-ui,sans-serif;color:var(--cream);
     background:
@@ -37,7 +37,7 @@
   .viewport{position:relative;z-index:1;width:100%;height:100vh;height:100dvh;overflow:hidden}
   .track{display:flex;height:100%;transition:transform .6s cubic-bezier(.7,0,.18,1)}
   .slide{min-width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;padding:64px 28px 96px;position:relative;overflow-y:auto}
+    text-align:center;padding:64px 28px 96px;position:relative;overflow-y:auto;touch-action:pan-y}
   .slide.tapable{cursor:pointer}
   @media(max-height:700px){.slide{padding:32px 20px 60px}}
 
