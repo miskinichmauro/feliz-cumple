@@ -328,7 +328,13 @@ async function drawCard(key){
   ctx.font='400 96px "Pinyon Script"';
   const grad=ctx.createLinearGradient(0,190,W,300);
   grad.addColorStop(0,'#F4DBAB');grad.addColorStop(.5,'#E7C795');grad.addColorStop(1,'#C9A06A');
-  ctx.fillStyle=grad;ctx.fillText('Feliz Cumpleaños 💖',W/2,250);
+  ctx.fillStyle=grad;ctx.fillText('Feliz Cumpleaños',W/2,250);
+
+  // corazón aparte: un degradé como fillStyle pinta el emoji en vez de dejarlo a color
+  const tituloAncho=ctx.measureText('Feliz Cumpleaños').width;
+  ctx.fillStyle='#E7C795';ctx.font='80px sans-serif';ctx.textAlign='left';
+  ctx.fillText('💖',W/2+tituloAncho/2+16,250);
+  ctx.textAlign='center';
 
   // icono
   const img=await svgToImg(SVG[key],'#E7C795');
