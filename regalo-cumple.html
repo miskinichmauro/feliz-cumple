@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Feliz Cumpleaños 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine:#1C3A5E;--plum:#14283F;--ink:#0A1420;
+    --rose:#F3B6BE;--blush:#F7D9DC;
+    --gold:#E7C795;--gold-bright:#F4DBAB;--gold-deep:#C9A06A;
+    --cream:#FBF1EC;--soft:rgba(251,241,236,.74);--line:rgba(231,199,149,.28);
+    --gold-grad:linear-gradient(135deg,#F4DBAB 0%,#E7C795 45%,#C9A06A 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{
+    font-family:'Jost',system-ui,sans-serif;color:var(--cream);
+    background:
+      radial-gradient(120% 80% at 50% -10%,rgba(42,90,140,.55),transparent 60%),
+      radial-gradient(90% 70% at 80% 110%,rgba(28,58,94,.6),transparent 55%),
+      linear-gradient(160deg,#1F3D63 0%,#14283F 50%,#0A1420 100%);
+    -webkit-font-smoothing:antialiased;user-select:none;
+  }
+
+  /* corazones flotando */
+  .petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .petal{position:absolute;top:-40px;color:var(--rose);animation:fall linear infinite}
+  .petal svg{width:100%;height:100%;opacity:.45}
+  @keyframes fall{0%{transform:translateY(-40px) rotate(0);opacity:0}
+    10%{opacity:.65}90%{opacity:.45}100%{transform:translateY(106vh) rotate(220deg);opacity:0}}
+
+  /* carrusel */
+  .viewport{position:relative;z-index:1;width:100%;height:100vh;height:100dvh;overflow:hidden}
+  .track{display:flex;height:100%;transition:transform .6s cubic-bezier(.7,0,.18,1)}
+  .slide{min-width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:64px 28px 96px;position:relative;overflow-y:auto}
+  .slide.tapable{cursor:pointer}
+  @media(max-height:700px){.slide{padding:32px 20px 60px}}
+
+  .content{max-width:640px;animation:soft .8s ease both}
+  @keyframes soft{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .ornament{width:52px;height:1px;background:var(--gold);opacity:.5;margin:0 auto 26px}
+  .heart-mark{display:inline-block;font-size:.75em;vertical-align:.15em;
+    background:none;-webkit-background-clip:initial;background-clip:initial;color:initial}
+
+  .script{
+    font-family:'Pinyon Script',cursive;line-height:.95;
+    font-size:clamp(3.4rem,13vw,6.6rem);
+    background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 4px 18px rgba(231,199,149,.25));padding:.06em .08em .16em;
+  }
+  .msg{font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(1.5rem,5.4vw,2.2rem);line-height:1.5;color:var(--cream)}
+  .msg .accent{color:var(--gold);font-style:italic}
+  .msg .em{font-size:1.15em}
+
+  /* pista de "tocar" */
+  .hint{position:absolute;bottom:54px;left:0;right:0;text-align:center;
+    font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.7;
+    animation:pulse 2.2s ease-in-out infinite}
+  .hint .arrow{display:inline-block;margin-left:.4em;animation:nudge 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:.9}}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+
+  /* pagina 5 - grid de regalos */
+  .pick-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:clamp(1.4rem,6vw,2.3rem);color:var(--blush);margin-bottom:6px}
+  .pick-sub{color:var(--soft);font-size:clamp(.78rem,3.4vw,.9rem);letter-spacing:.02em;margin-bottom:18px;line-height:1.4}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;width:100%;max-width:520px}
+  .gift{appearance:none;font-family:inherit;color:var(--cream);cursor:pointer;
+    border:1px solid var(--line);background:rgba(255,255,255,.035);backdrop-filter:blur(6px);
+    border-radius:18px;padding:20px 10px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s,box-shadow .35s,background .35s}
+  .gift .ill{width:48px;height:48px;color:var(--gold)}
+  .gift .ill svg{width:100%;height:100%}
+  .gift .name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;line-height:1.15}
+  .gift .pick{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.65;transition:opacity .3s}
+  @media(min-width:640px){
+    .grid{gap:24px;max-width:780px}
+    .gift{border-radius:24px;padding:38px 20px 30px;gap:16px}
+    .gift .ill{width:84px;height:84px}
+    .gift .name{font-size:1.6rem}
+    .gift .pick{font-size:.78rem;letter-spacing:.26em}
+  }
+  .gift:hover,.gift:focus-visible{transform:translateY(-7px);border-color:rgba(231,199,149,.65);
+    background:rgba(255,255,255,.07);box-shadow:0 18px 40px -18px rgba(231,199,149,.5);outline:none}
+  .gift:hover .pick,.gift:focus-visible .pick{opacity:1}
+
+  /* pagina 6 - giftcard */
+  .final-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:clamp(1.4rem,5.5vw,2rem);color:var(--blush);margin-bottom:18px}
+  #card-canvas{width:min(330px,78vw);height:auto;border-radius:18px;
+    box-shadow:0 30px 70px -28px rgba(0,0,0,.85);animation:pop .6s cubic-bezier(.2,.8,.2,1.05) both}
+  @keyframes pop{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:none}}
+
+  .actions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:26px}
+  .btn{font-family:'Jost',sans-serif;font-size:.98rem;letter-spacing:.05em;border-radius:999px;
+    padding:15px 34px;cursor:pointer;border:1px solid transparent;text-decoration:none;
+    display:inline-flex;align-items:center;gap:10px;transition:transform .25s,box-shadow .25s,background .25s}
+  .btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:500;
+    box-shadow:0 14px 30px -12px rgba(37,211,102,.6)}
+  .btn-wa:hover{transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(37,211,102,.8)}
+  .btn svg{width:20px;height:20px}
+  .mini{display:flex;gap:20px}
+  .link-ghost{background:none;border:none;color:var(--gold);font-family:'Jost',sans-serif;
+    font-size:.82rem;letter-spacing:.04em;cursor:pointer;opacity:.8;padding:6px}
+  .link-ghost:hover{opacity:1;color:var(--gold-bright)}
+
+  /* puntos de progreso */
+  .dots{position:fixed;bottom:20px;left:0;right:0;z-index:3;display:flex;justify-content:center;gap:9px}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(231,199,149,.28);border:none;padding:0;cursor:pointer;transition:all .3s}
+  .dot.active{background:var(--gold);transform:scale(1.35)}
+  .dot:disabled{cursor:default;opacity:.5}
+
+  .btn:focus-visible,.gift:focus-visible,.dot:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:transform .2s linear!important}}
+</style>
+</head>
+<body>
+
+<div class="petals" id="petals" aria-hidden="true"></div>
+
+<div class="viewport" id="viewport">
+  <div class="track" id="track">
+
+    <!-- 1 -->
+    <section class="slide tapable">
+      <div class="content">
+        <div class="script">Feliz cumpleaños<br>amorcito <span class="heart-mark">💖</span></div>
+      </div>
+      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide tapable">
+      <div class="content">
+        <div class="ornament"></div>
+        <p class="msg">Espero que disfrutes de este pequeño regalo, y que te ayude a pasar tu <span class="accent">tiempo libre</span> y a soltar todo el estrés que estás teniendo… <span class="accent">para que tu ojo se normalice</span> jaja</p>
+      </div>
+      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide tapable">
+      <div class="content">
+        <div class="ornament"></div>
+        <p class="msg">Hoy, <span class="accent">más que otros días</span>, quiero hacerte feliz. Por eso un solo regalo no es suficiente… pero el segundo <span class="accent">lo tenés que elegir vos</span>.</p>
+      </div>
+      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide tapable">
+      <div class="content">
+        <div class="ornament"></div>
+        <p class="msg">Elegí el regalo que más quieras, el que más necesites, y lo más importante… <span class="accent">el que más te haga feliz</span> <span class="em">❤️</span></p>
+      </div>
+      <div class="hint">Tocá para elegir <span class="arrow">→</span></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide">
+      <div class="content">
+        <p class="pick-title">Todos de la marca que quieras jeje</p>
+        <p class="pick-sub">Elegí bien, porque después de que elijas ya no hay vuelta atrás jiji</p>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide">
+      <div class="content">
+        <p class="final-title">Este es tu regalo ✨</p>
+        <canvas id="card-canvas" width="1000" height="1270" aria-label="Gift card"></canvas>
+        <div class="actions">
+          <button class="btn btn-wa" id="btn-wa">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2s-.7 1-.9 1.2c-.2.2-.3.2-.6.1s-1.3-.5-2.4-1.5c-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+            Enviarme por WhatsApp
+          </button>
+          <div class="mini">
+            <button class="link-ghost" id="btn-download">Descargar imagen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+
+<script>
+/* ================= CONFIGURACIÓN ================= */
+const NOMBRE   = 'Mi amorcito 💖';
+const DE       = 'Yo xd';
+const WHATSAPP = '595991280488';
+/* ================================================= */
+
+// ---- Ilustraciones (línea, oro) ----
+const SVG = {
+  bota:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301 281"><path transform="translate(0,281) scale(0.1,-0.1)" fill="currentColor" d="M499 2534 c-11 -13 -6 -36 29 -144 l43 -128 -3 -294 -3 -293 -28 -43 c-76 -117 -115 -273 -124 -487 l-6 -150 63 -290 c34 -159 67 -296 72 -303 15 -18 521 -18 536 1 6 6 22 93 36 191 14 99 28 182 31 184 8 8 132 -48 193 -88 31 -20 106 -74 167 -120 60 -45 141 -98 180 -117 170 -80 351 -82 619 -7 183 51 491 180 502 209 7 17 -26 159 -50 215 -26 63 -73 117 -122 140 -41 20 -70 24 -213 31 -188 8 -255 24 -359 86 -169 100 -304 280 -353 471 -17 66 -19 112 -19 382 0 245 -3 310 -13 319 -10 7 -147 12 -447 13 l-433 3 -36 105 c-20 58 -40 111 -44 118 -13 20 -201 16 -218 -4z m188 -138 c12 -39 23 -74 23 -79 0 -4 -16 -7 -37 -5 -35 3 -37 5 -60 72 -12 39 -23 74 -23 79 0 4 16 7 37 5 35 -3 37 -5 60 -72z m253 -173 c0 -30 114 -611 122 -620 6 -7 18 -13 28 -13 10 0 22 6 28 13 8 9 122 590 122 620 0 4 83 7 185 7 l185 0 0 -283 c0 -319 8 -374 75 -514 82 -174 226 -323 392 -407 88 -44 157 -57 335 -65 184 -8 193 -11 246 -79 l25 -32 -94 -44 c-287 -133 -556 -198 -699 -167 -82 18 -130 44 -263 148 -140 109 -222 159 -330 202 -89 35 -495 138 -677 171 -69 13 -127 24 -129 26 -2 2 4 49 14 106 19 112 61 241 98 298 44 66 47 90 47 371 l0 269 145 0 c80 0 145 -3 145 -7z m217 -20 c-3 -16 -18 -97 -34 -180 -15 -84 -30 -153 -33 -153 -3 0 -18 69 -33 153 -16 83 -31 164 -34 180 l-5 27 72 0 72 0 -5 -27z m-493 -1133 c208 -42 490 -114 588 -150 107 -39 186 -87 335 -203 169 -131 253 -167 391 -167 158 0 460 88 670 194 56 29 61 27 65 -28 2 -26 -4 -31 -87 -67 -219 -95 -458 -165 -606 -175 -183 -14 -288 25 -500 185 -226 170 -308 202 -772 307 l-258 58 0 38 c0 24 5 38 13 38 6 0 79 -14 161 -30z m310 -240 c44 -11 81 -22 84 -24 2 -3 -6 -79 -19 -170 l-23 -166 -207 0 -208 0 -11 58 c-7 31 -29 135 -50 229 -20 95 -35 175 -33 177 4 3 323 -67 467 -104z"/></svg>`,
+  mochila:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 213 261"><path transform="translate(0,261) scale(0.1,-0.1)" fill="currentColor" d="M283 2346 l-28 -24 -6 -414 c-5 -329 -9 -427 -22 -483 -14 -60 -16 -154 -17 -676 l0 -606 22 -33 c13 -18 36 -43 51 -54 28 -21 32 -21 827 -21 795 0 799 0 827 21 15 11 38 36 51 54 l22 33 0 606 c-1 522 -3 616 -17 676 -13 56 -17 154 -22 483 l-6 414 -28 24 c-28 24 -32 24 -219 24 l-190 0 -32 -32 c-26 -27 -36 -52 -55 -130 -12 -54 -27 -98 -31 -98 -5 0 -20 4 -33 9 -21 8 -25 18 -31 72 -6 52 -13 68 -40 95 -40 40 -84 48 -234 43 -152 -6 -189 -33 -199 -149 -3 -34 -11 -60 -17 -60 -6 0 -21 -3 -32 -6 -20 -5 -23 2 -45 93 -19 79 -29 104 -55 131 l-32 32 -190 0 c-187 0 -191 0 -219 -24z m422 -163 c17 -62 25 -108 19 -110 -36 -12 -149 -89 -215 -146 -44 -37 -79 -65 -79 -63 0 2 -25 95 -55 207 -30 111 -52 206 -49 211 3 4 83 8 178 8 l173 0 28 -107z m1185 81 c0 -15 -22 -109 -50 -211 -27 -101 -50 -187 -50 -190 0 -3 -25 18 -57 47 -59 54 -145 115 -203 145 -19 10 -37 19 -38 21 -2 1 8 50 24 108 l27 106 174 0 173 0 0 -26z m-638 -31 c10 -9 18 -30 18 -47 l0 -31 -160 0 -160 0 0 29 c0 58 19 66 158 66 103 0 129 -3 144 -17z m83 -182 c225 -67 409 -221 511 -426 89 -181 88 -166 88 -858 l1 -609 -28 -24 -28 -24 -769 0 -769 0 -28 24 -28 24 1 609 c0 593 1 610 22 688 86 316 332 547 653 615 75 16 294 5 374 -19z m-981 -197 c21 -80 20 -84 -9 -119 l-24 -30 0 120 c0 128 6 133 33 29z m1534 -86 l-3 -53 -18 34 c-18 32 -18 35 0 105 l18 71 3 -52 c2 -29 2 -77 0 -105z M409 1063 c-57 -48 -59 -62 -59 -400 0 -289 1 -309 21 -349 15 -31 32 -48 63 -63 41 -21 57 -21 676 -21 619 0 635 0 676 21 31 15 48 32 63 63 20 40 21 60 21 349 0 338 -2 352 -59 400 l-33 27 -668 0 -668 0 -33 -27z m1355 -64 l26 -20 0 -315 c0 -301 -1 -315 -20 -334 -20 -20 -33 -20 -660 -20 -627 0 -640 0 -660 20 -19 19 -20 33 -20 334 l0 315 26 20 c26 21 35 21 654 21 619 0 628 0 654 -21z M501 882 c-14 -26 5 -52 39 -52 28 0 29 -2 32 -51 6 -96 70 -96 76 -1 l3 52 527 2 527 3 0 30 0 30 -597 3 c-564 2 -598 1 -607 -16z"/></svg>`,
+  guante:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311 317"><path transform="translate(0,317) scale(0.1,-0.1)" fill="currentColor" d="M800 2798 c-25 -13 -55 -39 -68 -58 -20 -30 -23 -45 -20 -97 l4 -63 -28 0 c-38 0 -101 -33 -127 -66 -46 -58 -46 -116 -1 -232 22 -58 25 -76 10 -67 -17 10 -88 -14 -121 -42 -37 -32 -59 -78 -59 -128 0 -36 268 -789 320 -900 16 -33 94 -147 174 -254 l145 -194 -19 -25 c-11 -13 -20 -34 -20 -46 0 -11 25 -88 55 -171 55 -151 83 -195 124 -195 10 0 51 11 92 25 46 16 75 21 77 15 2 -6 17 -17 32 -25 24 -13 104 -15 502 -15 457 0 474 1 506 20 51 31 62 71 62 215 0 143 -12 186 -60 213 l-30 17 0 96 0 97 240 235 c171 167 246 248 260 279 80 177 -102 358 -279 278 -24 -11 -83 -59 -132 -107 l-89 -87 0 511 0 510 -23 34 c-35 52 -82 79 -139 79 -27 0 -58 -4 -68 -10 -15 -8 -19 -5 -25 27 -10 54 -30 88 -70 118 -96 74 -246 14 -262 -104 l-6 -40 -61 6 c-77 7 -123 -11 -162 -63 -29 -37 -29 -37 -34 -221 l-5 -183 -88 243 c-91 250 -108 281 -169 313 -42 22 -125 15 -165 -14 l-31 -22 -26 41 c-30 44 -91 78 -141 79 -17 0 -51 -10 -75 -22z m128 -85 c13 -12 72 -160 160 -403 95 -262 146 -389 160 -398 16 -11 23 -10 43 7 l23 19 -112 308 c-130 358 -133 377 -71 409 38 20 53 19 85 -8 21 -19 60 -114 193 -480 92 -252 174 -466 184 -477 9 -11 29 -23 43 -26 51 -13 75 12 139 145 33 67 70 131 83 142 82 66 210 -2 199 -106 -3 -23 -64 -167 -146 -342 -78 -165 -141 -308 -141 -316 0 -8 15 -55 34 -105 29 -80 32 -92 17 -97 -14 -6 -270 -100 -382 -140 l-36 -13 -32 92 c-61 168 -109 254 -186 332 -76 77 -148 117 -236 134 -65 12 -164 13 -206 1 -26 -7 -33 -6 -38 7 -64 159 -227 626 -227 652 0 68 85 105 132 57 13 -14 57 -119 105 -252 46 -125 89 -232 97 -236 19 -13 39 -7 54 16 11 18 -3 64 -122 390 -73 204 -134 380 -134 393 0 33 43 72 80 72 67 0 58 17 216 -418 76 -211 91 -243 111 -248 25 -7 53 10 53 32 0 7 -63 188 -140 400 -149 409 -153 427 -107 459 29 20 80 19 105 -2z m1057 -8 l25 -24 0 -314 0 -314 -54 5 c-30 2 -69 0 -86 -6 l-31 -11 3 325 3 326 24 19 c33 27 86 25 116 -6z m-275 -150 c44 -23 50 -63 50 -332 l0 -241 -51 -114 c-28 -62 -52 -114 -54 -116 -1 -2 -19 42 -39 96 l-36 99 0 265 c0 285 5 319 49 343 34 18 46 18 81 0z m531 -14 l29 -29 0 -512 0 -512 29 -29 c50 -49 71 -41 180 65 53 51 106 99 118 105 12 6 43 11 68 11 40 0 52 -5 81 -34 29 -29 34 -41 34 -83 0 -29 -7 -58 -18 -73 -9 -14 -116 -122 -237 -239 -121 -118 -228 -223 -237 -234 -15 -16 -18 -39 -18 -133 l0 -114 -79 0 -79 0 -38 108 c-41 116 -72 158 -123 168 -31 7 -33 9 -81 145 -12 34 -10 41 124 328 75 161 140 310 145 331 10 46 0 109 -23 144 -14 22 -16 61 -16 291 l0 267 29 29 c18 17 40 29 56 29 16 0 38 -12 56 -29z m-1306 -1236 c111 -18 223 -114 287 -246 42 -87 102 -248 95 -255 -6 -6 -187 -74 -197 -74 -17 0 -305 398 -336 464 -48 104 -48 110 6 117 46 6 75 5 145 -6z m1008 -387 c21 -17 89 -205 85 -238 -3 -23 -30 -35 -418 -177 -228 -83 -420 -152 -425 -152 -6 -1 -32 59 -59 132 -38 106 -45 134 -34 141 12 7 814 303 829 305 3 1 13 -5 22 -11z m402 -423 l0 -140 -450 -2 -450 -2 160 59 160 59 208 0 c203 1 207 1 207 -20 0 -33 19 -59 43 -59 34 0 47 19 47 68 0 35 -6 49 -29 73 -28 28 -33 29 -123 29 l-93 0 32 20 c17 10 37 28 43 40 10 19 18 20 128 18 l117 -3 0 -140z M1530 699 c-168 -61 -313 -119 -324 -129 -14 -14 -16 -22 -7 -38 6 -11 17 -22 25 -25 8 -3 151 44 316 104 166 61 303 109 304 107 1 -2 7 -16 14 -31 10 -24 17 -28 45 -25 25 2 33 8 35 26 7 49 -45 123 -87 122 -9 -1 -153 -50 -321 -111z"/></svg>`,
+  campera:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 251 287"><path transform="translate(0,287) scale(0.1,-0.1)" fill="currentColor" d="M1025 2659 c-115 -15 -196 -44 -248 -89 -53 -47 -72 -93 -63 -153 6 -42 6 -42 -39 -66 -33 -17 -45 -30 -45 -46 0 -41 23 -49 75 -25 26 12 48 20 49 18 20 -40 144 -213 163 -228 62 -49 151 -46 214 7 l31 27 29 -35 c109 -130 218 -322 244 -430 26 -112 15 -241 -26 -294 -29 -35 -92 -35 -130 1 -33 31 -81 43 -174 44 -88 0 -135 -13 -165 -45 -21 -23 -31 -25 -107 -25 -82 0 -83 0 -89 28 -3 15 -8 34 -11 42 -3 8 -8 119 -12 246 l-6 230 -34 70 c-24 49 -55 90 -107 141 l-73 71 34 27 c37 28 44 55 20 75 -20 16 -45 5 -103 -45 -54 -47 -60 -60 -128 -257 -73 -214 -137 -467 -174 -686 -17 -97 -32 -176 -33 -177 -1 0 -14 -6 -29 -12 -31 -14 -38 -35 -64 -182 -9 -54 -14 -110 -10 -124 21 -84 144 -146 306 -154 146 -7 176 19 204 183 19 107 20 148 4 173 -10 16 0 61 54 257 l65 238 11 -72 c6 -40 20 -92 31 -115 27 -56 30 -187 5 -208 -29 -24 -74 -128 -98 -227 -13 -53 -38 -180 -56 -282 -17 -102 -43 -219 -57 -260 -24 -74 -24 -75 -5 -91 11 -9 75 -25 144 -37 430 -75 733 -79 1133 -17 198 31 255 44 261 60 3 7 -4 40 -15 73 -12 33 -36 148 -55 254 -55 310 -86 426 -132 493 -21 32 -24 47 -24 130 0 51 5 106 11 122 6 15 16 62 23 103 l12 75 27 -99 c29 -109 47 -137 75 -120 9 6 18 20 20 30 2 11 -26 125 -62 254 -73 263 -73 277 -20 382 29 58 141 175 155 161 17 -18 122 -352 164 -526 40 -167 79 -371 87 -457 3 -34 2 -35 -55 -58 -32 -12 -86 -25 -121 -29 l-63 -6 -18 69 c-24 92 -31 104 -61 104 -36 0 -40 -23 -17 -109 17 -69 18 -78 4 -103 -13 -23 -13 -38 3 -141 27 -170 59 -207 181 -207 130 0 277 53 314 114 25 41 26 81 2 206 -20 110 -33 138 -64 146 -22 5 -25 18 -51 171 -63 380 -208 855 -285 936 -40 43 -147 117 -233 162 l-56 29 5 51 c17 165 -165 247 -542 244 -71 -1 -161 -5 -200 -10z m445 -79 c94 -15 155 -38 190 -70 56 -52 38 -125 -71 -286 -69 -103 -109 -129 -164 -108 -9 4 -39 36 -66 73 -44 58 -48 66 -32 72 158 58 216 96 211 138 -4 34 -41 40 -71 13 -31 -28 -71 -47 -155 -72 l-72 -22 -73 22 c-83 25 -123 44 -154 72 -12 11 -31 18 -45 16 -18 -2 -23 -9 -23 -33 0 -25 8 -36 47 -62 26 -17 77 -41 113 -53 36 -12 65 -26 63 -30 -2 -5 -24 -35 -50 -69 -77 -99 -123 -95 -205 14 -73 98 -123 198 -123 247 0 31 6 46 29 67 32 30 111 59 194 71 79 11 384 11 457 0z m360 -330 c45 -27 98 -61 117 -76 l34 -26 -69 -67 c-50 -49 -79 -88 -108 -146 l-39 -79 -7 -235 c-4 -130 -11 -249 -16 -266 l-8 -30 -122 -3 c-67 -1 -122 -1 -122 1 0 3 7 24 16 48 23 61 23 215 1 299 -32 121 -128 286 -270 463 -24 30 -27 39 -17 56 6 12 15 21 19 21 5 0 32 -30 59 -67 54 -73 86 -97 143 -108 80 -15 163 53 251 206 18 32 38 59 44 59 6 0 48 -22 94 -50z m-1281 -256 c47 -54 76 -110 92 -179 11 -48 8 -62 -80 -380 -51 -181 -99 -354 -107 -384 l-15 -54 -57 6 c-59 7 -146 30 -171 46 -44 28 93 635 221 979 l20 52 28 -20 c16 -11 47 -41 69 -66z m673 -701 c15 -13 18 -32 18 -116 0 -135 -2 -137 -132 -137 -135 0 -141 6 -136 142 4 126 6 128 137 128 74 0 98 -4 113 -17z m-324 -125 l-3 -73 -52 -3 -53 -3 0 75 0 76 55 0 56 0 -3 -72z m665 30 l25 -42 -25 -33 -25 -33 -109 0 -109 0 0 75 0 75 109 0 109 0 25 -42z m147 -33 l0 -75 -36 0 c-36 0 -36 0 -20 25 21 32 20 51 -5 91 l-21 34 41 0 41 0 0 -75z m-784 -156 c18 -29 90 -49 182 -49 95 0 145 13 171 43 7 10 23 17 36 17 59 0 70 -154 30 -415 -18 -112 -28 -224 -29 -297 l-1 -118 -123 0 c-167 0 -607 51 -629 74 -3 3 2 36 11 73 9 37 32 156 51 263 37 206 71 334 105 388 l20 32 84 0 c51 0 88 -4 92 -11z m838 -41 c34 -69 57 -165 106 -435 22 -122 44 -233 50 -247 9 -24 8 -24 -78 -40 -121 -21 -304 -45 -382 -48 l-65 -3 -3 88 c-2 58 6 151 24 270 28 188 35 337 21 420 l-8 47 155 0 155 0 25 -52z m-1496 -22 c29 -8 87 -18 128 -22 62 -6 74 -10 70 -23 -3 -9 -10 -52 -17 -96 -9 -60 -18 -85 -36 -103 -23 -22 -29 -24 -91 -17 -82 9 -184 41 -211 67 -25 23 -26 45 -4 164 l16 93 46 -23 c25 -13 70 -31 99 -40z m2111 -46 c21 -116 17 -141 -26 -163 -44 -23 -125 -45 -194 -52 -90 -10 -105 4 -124 115 -22 125 -26 116 56 124 77 8 173 35 229 65 19 11 36 18 38 17 1 -2 11 -49 21 -106z M1005 1257 c-3 -12 -5 -58 -3 -102 l3 -80 94 -3 c60 -2 98 1 107 9 18 15 20 169 2 187 -8 8 -46 12 -105 12 -88 0 -93 -1 -98 -23z m135 -82 c0 -32 -2 -35 -30 -35 -28 0 -30 3 -30 35 0 32 2 35 30 35 28 0 30 -3 30 -35z M1393 1184 c-16 -41 46 -73 67 -34 9 16 8 25 -1 36 -16 19 -58 18 -66 -2z M1210 873 c-55 -20 -81 -83 -55 -132 34 -66 112 -76 160 -19 36 42 33 82 -9 124 -33 33 -60 40 -96 27z m50 -87 c0 -20 -19 -31 -32 -18 -6 6 -7 15 -4 21 10 16 36 13 36 -3z M1126 1879 c-36 -43 -35 -91 3 -130 22 -21 39 -29 66 -29 83 0 127 105 69 164 -40 39 -103 37 -138 -5z m87 -54 c7 -17 -8 -29 -28 -21 -17 6 -9 36 10 36 7 0 15 -7 18 -15z M1239 1621 c-63 -64 -23 -161 66 -161 86 0 127 100 66 161 -22 21 -39 29 -66 29 -27 0 -44 -8 -66 -29z m84 -57 c9 -10 -4 -34 -18 -34 -17 0 -28 17 -20 30 7 11 28 13 38 4z"/></svg>`
+};
+const REGALOS = {
+  bota:    {nombre:'Bota'},
+  mochila: {nombre:'Mochila'},
+  guante:  {nombre:'Guante para moto'},
+  campera: {nombre:'Campera'}
+};
+
+// ---- Pétalos ----
+(function(){
+  const wrap=document.getElementById('petals');
+  const heart=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9C.8 8.6 2 5 5.5 5 8 5 10 7 12 9c2-2 4-4 6.5-4C22 5 23.2 8.6 21.5 12 19 16.5 12 21 12 21z"/></svg>`;
+  for(let i=0;i<14;i++){const p=document.createElement('span');p.className='petal';
+    const s=8+Math.random()*14;p.style.width=s+'px';p.style.height=s+'px';
+    p.style.left=Math.random()*100+'%';p.style.animationDuration=(9+Math.random()*9)+'s';
+    p.style.animationDelay=(-Math.random()*12)+'s';p.innerHTML=heart;wrap.appendChild(p);}
+})();
+
+// ---- Render tarjetas página 5 ----
+const grid=document.getElementById('grid');
+Object.keys(REGALOS).forEach(key=>{
+  const g=REGALOS[key];const b=document.createElement('button');
+  b.className='gift';b.type='button';b.setAttribute('aria-label','Elegir '+g.nombre);
+  b.innerHTML=`<span class="ill">${SVG[key]}</span><span class="name">${g.nombre}</span><span class="pick">Elegir</span>`;
+  b.addEventListener('click',()=>{
+    if(confirm(`¿Elegís "${g.nombre}"? Ya no hay vuelta atrás jiji 💖`)) elegir(key);
+  });
+  grid.appendChild(b);
+});
+
+/* ============ Carrusel ============ */
+const track=document.getElementById('track');
+const slides=[...document.querySelectorAll('.slide')];
+const TOTAL=slides.length;
+const STORAGE_KEY='regaloCumpleElegido';
+const guardado=localStorage.getItem(STORAGE_KEY);
+let index=0, seleccion=(guardado && REGALOS[guardado]) ? guardado : null;
+const maxReachable=()=> seleccion ? TOTAL-1 : TOTAL-2; // pág 6 solo tras elegir
+
+// puntos
+const dotsWrap=document.getElementById('dots');
+const dots=[];
+for(let i=0;i<TOTAL;i++){const d=document.createElement('button');d.className='dot';
+  d.setAttribute('aria-label','Ir a página '+(i+1));
+  d.addEventListener('click',()=>{if(i<=maxReachable())goTo(i);});
+  dots.push(d);dotsWrap.appendChild(d);}
+
+function refreshDots(){dots.forEach((d,i)=>{d.classList.toggle('active',i===index);d.disabled=i>maxReachable();});}
+function goTo(i){ if(seleccion && i===4) i=TOTAL-1; // ya elegiste: no se puede volver a la selección
+  index=Math.max(0,Math.min(i,maxReachable()));
+  track.style.transform=`translateX(${-index*100}%)`;refreshDots();}
+function next(){ if(index<maxReachable()) goTo(index+1); }
+function prev(){ if(index>0) goTo(index-1); }
+
+// tocar para avanzar (solo páginas narrativas 1-4)
+slides.forEach((s,i)=>{ if(i<=3) s.addEventListener('click',()=>next()); });
+
+// deslizar
+let x0=null;
+const vp=document.getElementById('viewport');
+vp.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
+vp.addEventListener('touchend',e=>{ if(x0===null)return;
+  const dx=e.changedTouches[0].clientX-x0;
+  if(dx<-50)next(); else if(dx>50)prev(); x0=null;});
+// teclado
+window.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();});
+
+refreshDots();
+
+/* ============ GiftCard en canvas ============ */
+const canvas=document.getElementById('card-canvas');
+const ctx=canvas.getContext('2d');
+let cardBlob=null, regaloActual='';
+
+function svgToImg(svg,color){return new Promise((res,rej)=>{
+  const colored=svg.replace(/currentColor/g,color);
+  const img=new Image();
+  img.onload=()=>res(img);
+  img.onerror=()=>rej(new Error('No se pudo cargar el ícono SVG'));
+  img.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(colored)));
+});}
+
+function letters(text,x,y,spacing){ // texto con espaciado
+  const total=[...text].reduce((w,ch)=>w+ctx.measureText(ch).width+spacing,0)-spacing;
+  let cx=x-total/2;
+  for(const ch of text){const w=ctx.measureText(ch).width;ctx.fillText(ch,cx+w/2,y);cx+=w+spacing;}
+}
+
+async function drawCard(key){
+  const g=REGALOS[key]; regaloActual=g.nombre;
+  await Promise.all([
+    document.fonts.load('400 90px "Pinyon Script"'),
+    document.fonts.load('600 72px "Cormorant Garamond"'),
+    document.fonts.load('italic 500 38px "Cormorant Garamond"'),
+    document.fonts.load('400 30px "Jost"')
+  ]).catch(()=>{});
+  await document.fonts.ready.catch(()=>{});
+
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  // fondo
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#1C3A5E');bg.addColorStop(.5,'#14283F');bg.addColorStop(1,'#0A1420');
+  ctx.fillStyle=bg;roundRect(0,0,W,H,44);ctx.fill();
+
+  // marco doble oro
+  ctx.strokeStyle='rgba(231,199,149,.55)';ctx.lineWidth=2;
+  roundRect(46,46,W-92,H-92,30);ctx.stroke();
+  ctx.strokeStyle='rgba(231,199,149,.28)';ctx.lineWidth=1;
+  roundRect(64,64,W-128,H-128,22);ctx.stroke();
+
+  ctx.textAlign='center';ctx.textBaseline='middle';
+
+  // eyebrow
+  ctx.fillStyle='#E7C795';ctx.font='400 26px "Jost"';
+  letters('✦  VALE DE REGALO  ✦',W/2,150,6);
+
+  // script Feliz Cumpleaños
+  ctx.font='400 96px "Pinyon Script"';
+  const grad=ctx.createLinearGradient(0,190,W,300);
+  grad.addColorStop(0,'#F4DBAB');grad.addColorStop(.5,'#E7C795');grad.addColorStop(1,'#C9A06A');
+  ctx.fillStyle=grad;ctx.fillText('Feliz Cumpleaños 💖',W/2,250);
+
+  // icono
+  const img=await svgToImg(SVG[key],'#E7C795');
+  const S=300;ctx.drawImage(img,(W-S)/2,360,S,S);
+
+  // nombre del regalo
+  ctx.font='600 78px "Cormorant Garamond"';
+  const gg=ctx.createLinearGradient(0,690,W,760);
+  gg.addColorStop(0,'#F4DBAB');gg.addColorStop(.5,'#E7C795');gg.addColorStop(1,'#C9A06A');
+  ctx.fillStyle=gg;ctx.fillText(g.nombre,W/2,720);
+
+  // frase
+  ctx.fillStyle='#F7D9DC';ctx.font='italic 500 40px "Cormorant Garamond"';
+  ctx.fillText("Sin tope de compra y sin importar la marca",W/2,790);
+
+  // divisor punteado
+  ctx.strokeStyle='rgba(231,199,149,.35)';ctx.lineWidth=2;ctx.setLineDash([6,10]);
+  ctx.beginPath();ctx.moveTo(140,890);ctx.lineTo(W-140,890);ctx.stroke();ctx.setLineDash([]);
+
+  // Para / De
+  ctx.fillStyle='#E7C795';ctx.font='400 24px "Jost"';
+  ctx.textAlign='left';letters('PARA',215,945,4);
+  ctx.textAlign='right';letters('DE',W-215,945,4);
+  ctx.fillStyle='#FBF1EC';ctx.font='500 46px "Cormorant Garamond"';
+  ctx.textAlign='left';ctx.fillText(NOMBRE,150,1000);
+  ctx.textAlign='right';ctx.fillText(DE,W-150,1000);
+
+  // corazones decorativos
+  ctx.fillStyle='rgba(243,182,190,.55)';ctx.font='34px sans-serif';ctx.textAlign='center';
+  ctx.fillText('❤',130,150);ctx.fillText('❤',W-130,150);
+
+  // blob para compartir
+  canvas.toBlob(b=>{cardBlob=b;},'image/png');
+}
+
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+
+async function elegir(key){
+  seleccion=key;
+  localStorage.setItem(STORAGE_KEY,key);
+  await drawCard(key);
+  goTo(TOTAL-1);
+  window.scrollTo(0,0);
+}
+
+// si ya había una elección guardada de una visita anterior, redibujar la tarjeta
+if(seleccion) drawCard(seleccion);
+
+/* ============ WhatsApp / descarga ============ */
+function getBlob(){return new Promise(res=>{
+  if(cardBlob)return res(cardBlob);
+  canvas.toBlob(b=>{cardBlob=b;res(b);},'image/png');
+});}
+
+document.getElementById('btn-wa').addEventListener('click',async()=>{
+  const blob=await getBlob();
+  const file=new File([blob],'regalo-cumple.png',{type:'image/png'});
+  const texto=`¡Ya elegí mi regalo de cumpleaños! 💖 Quiero: ${regaloActual}. ¡Gracias amor! 🎁`;
+
+  // móvil: compartir nativo con la IMAGEN → elegís WhatsApp
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file],text:texto}); return; }
+    catch(err){ if(err.name==='AbortError') return; }
+  }
+  // respaldo (compu): descarga la imagen y abre WhatsApp con el texto
+  descargar(blob);
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto+' (te adjunto la imagen 👆)')}`,'_blank');
+});
+
+function descargar(blob){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='regalo-cumple.png';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+document.getElementById('btn-download').addEventListener('click',async()=>descargar(await getBlob()));
+</script>
+</body>
+</html>
