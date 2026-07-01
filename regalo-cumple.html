@@ -102,9 +102,9 @@
   .btn{font-family:'Jost',sans-serif;font-size:.98rem;letter-spacing:.05em;border-radius:999px;
     padding:15px 34px;cursor:pointer;border:1px solid transparent;text-decoration:none;
     display:inline-flex;align-items:center;gap:10px;transition:transform .25s,box-shadow .25s,background .25s}
-  .btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:500;
-    box-shadow:0 14px 30px -12px rgba(37,211,102,.6)}
-  .btn-wa:hover{transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(37,211,102,.8)}
+  .btn-share{background:var(--gold-grad);color:var(--ink);font-weight:500;
+    box-shadow:0 14px 30px -12px rgba(231,199,149,.6)}
+  .btn-share:hover{transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(231,199,149,.8)}
   .btn svg{width:20px;height:20px}
   .mini{display:flex;gap:20px}
   .link-ghost{background:none;border:none;color:var(--gold);font-family:'Jost',sans-serif;
@@ -133,7 +133,7 @@
       <div class="content">
         <div class="script">Feliz cumpleaños<br>amorcito <span class="heart-mark">💖</span></div>
       </div>
-      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+      <div class="hint">Toca para continuar <span class="arrow">→</span></div>
     </section>
 
     <!-- 2 -->
@@ -142,16 +142,16 @@
         <div class="ornament"></div>
         <p class="msg">Espero que disfrutes de este pequeño regalo, y que te ayude a pasar tu <span class="accent">tiempo libre</span> y a soltar todo el estrés que estás teniendo… <span class="accent">para que tu ojo se normalice</span> jaja</p>
       </div>
-      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+      <div class="hint">Toca para continuar <span class="arrow">→</span></div>
     </section>
 
     <!-- 3 -->
     <section class="slide tapable">
       <div class="content">
         <div class="ornament"></div>
-        <p class="msg">Hoy, <span class="accent">más que otros días</span>, quiero hacerte feliz. Por eso un solo regalo no es suficiente… pero el segundo <span class="accent">lo tenés que elegir vos</span>.</p>
+        <p class="msg">Hoy, <span class="accent">más que otros días</span>, quiero hacerte feliz. Por eso un solo regalo no es suficiente… pero el segundo <span class="accent">lo tenes que elegir vos</span>.</p>
       </div>
-      <div class="hint">Tocá para continuar <span class="arrow">→</span></div>
+      <div class="hint">Toca para continuar <span class="arrow">→</span></div>
     </section>
 
     <!-- 4 -->
@@ -160,7 +160,7 @@
         <div class="ornament"></div>
         <p class="msg">Elegí el regalo que más quieras, el que más necesites, y lo más importante… <span class="accent">el que más te haga feliz</span> <span class="em">❤️</span></p>
       </div>
-      <div class="hint">Tocá para elegir <span class="arrow">→</span></div>
+      <div class="hint">Toca para elegir <span class="arrow">→</span></div>
     </section>
 
     <!-- 5 -->
@@ -178,9 +178,9 @@
         <p class="final-title">Este es tu regalo ✨</p>
         <canvas id="card-canvas" width="1000" height="1270" aria-label="Gift card"></canvas>
         <div class="actions">
-          <button class="btn btn-wa" id="btn-wa">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2s-.7 1-.9 1.2c-.2.2-.3.2-.6.1s-1.3-.5-2.4-1.5c-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-            Enviarme por WhatsApp
+          <button class="btn btn-share" id="btn-share">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5 15.4 6.5"/><path d="M8.6 13.5 15.4 17.5"/></svg>
+            Compartir
           </button>
           <div class="mini">
             <button class="link-ghost" id="btn-download">Descargar imagen</button>
@@ -198,7 +198,6 @@
 /* ================= CONFIGURACIÓN ================= */
 const NOMBRE   = 'Mi amorcito 💖';
 const DE       = 'Yo xd';
-const WHATSAPP = '595991280488';
 /* ================================================= */
 
 // ---- Ilustraciones (línea, oro) ----
@@ -380,25 +379,24 @@ async function elegir(key){
 // si ya había una elección guardada de una visita anterior, redibujar la tarjeta
 if(seleccion) drawCard(seleccion);
 
-/* ============ WhatsApp / descarga ============ */
+/* ============ Compartir / descarga ============ */
 function getBlob(){return new Promise(res=>{
   if(cardBlob)return res(cardBlob);
   canvas.toBlob(b=>{cardBlob=b;res(b);},'image/png');
 });}
 
-document.getElementById('btn-wa').addEventListener('click',async()=>{
+document.getElementById('btn-share').addEventListener('click',async()=>{
   const blob=await getBlob();
   const file=new File([blob],'regalo-cumple.png',{type:'image/png'});
-  const texto=`¡Ya elegí mi regalo de cumpleaños! 💖 Quiero: ${regaloActual}. ¡Gracias amor! 🎁`;
+  const texto=`¡Ya elegí mi regalo de cumpleaños! 💖 Quiero: ${regaloActual} 🎁`;
 
-  // móvil: compartir nativo con la IMAGEN → elegís WhatsApp
+  // compartir nativo con la imagen (WhatsApp, Mensajes, etc. según elija la usuaria)
   if(navigator.canShare && navigator.canShare({files:[file]})){
     try{ await navigator.share({files:[file],text:texto}); return; }
     catch(err){ if(err.name==='AbortError') return; }
   }
-  // respaldo (compu): descarga la imagen y abre WhatsApp con el texto
+  // respaldo si el navegador no soporta compartir: descargar la imagen
   descargar(blob);
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto+' (te adjunto la imagen 👆)')}`,'_blank');
 });
 
 function descargar(blob){
